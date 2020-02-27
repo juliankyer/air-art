@@ -1,7 +1,13 @@
+$red: #d3168c;
+$pink: #d3168c;
+$lt-purple: #a618d1;
+$dk-purple: #7605e0;
+$blue: #1210d9;
+
 body {
   font-family: sans-serif;
 }
 
 #canvas {
-  border: 2px solid magenta;
+  border: 2px solid $blue;
 }
