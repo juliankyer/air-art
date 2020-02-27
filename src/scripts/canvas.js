@@ -1,28 +1,19 @@
-import { ContextReplacementPlugin } from "webpack";
+export function drawLines(canvas, context) {
+    const base_radius = 2;
 
-export function drawLines() {
-    const width = 800;
-    const height = 800;
+    const fake_data = {"location": [0.8553116321563721, 0.923753559589386], "speed": 0.2241044044494629, "segments": [{"unit_direction": [-0.018715707420810992, -0.9998248458083738], "acceleration": 0.9780861735343933}, {"unit_direction": [-0.13321027927612328, -0.9910877970670294], "acceleration": 0.9903990626335144}, {"unit_direction": [0.21278553171237005, -0.9770989292256358], "acceleration": 0.9926618337631226}, {"unit_direction": [0.3787067026989507, -0.9255167385471149], "acceleration": 1.0186649560928345}, {"unit_direction": [0.7733454372270593, -0.6339848852457671], "acceleration": 1.0016921758651733}, {"unit_direction": [0.7259171792724889, -0.6877821230862817], "acceleration": 1.0008735656738281}, {"unit_direction": [0.6380155855197716, -0.7700234494051873], "acceleration": 1.0234256982803345}, {"unit_direction": [0.44969184111156674, -0.8931837705857006], "acceleration": 1.0090147256851196}]};
 
-    d3.select('#canvas-wrapper')
-                .append('canvas')
-                .attr('width', width)
-                .attr('height', height);
-
-
-    const fake_data = {"location": [0.7790576815605164, 0.8038459420204163], "speed": 0.6994943618774414, "segments": [{"unit_direction": [-0.5909150212968481, -0.8067338083939123], "acceleration": 2.006181240081787}, {"unit_direction": [-0.09681983052710683, -0.995301924250477], "acceleration": 0.10519944876432419}, {"unit_direction": [0.15830214170632842, -0.9873907189816955], "acceleration": 3.4462060928344727}, {"unit_direction": [0.40230191210253297, -0.915507057055622], "acceleration": 0.9929629564285278}, {"unit_direction": [-0.3419235874601496, -0.9397277586292646], "acceleration": -0.2921994924545288}, {"unit_direction": [-0.8555275553476055, -0.5177572810120104], "acceleration": 0.19828030467033386}, {"unit_direction": [-0.9982248895882652, 0.059557281725208376], "acceleration": -2.566174030303955}, {"unit_direction": [-0.8960770627111962, -0.4438985218300178], "acceleration": -4.108924865722656}, {"unit_direction": [-0.842557329535969, -0.5386066713708777], "acceleration": -2.0288236141204834}, {"unit_direction": [-0.999585688290155, -0.02878283803757122], "acceleration": 0.9632022976875305}, {"unit_direction": [0.3000947072888601, 0.9539094121860908], "acceleration": -2.6192703247070312}, {"unit_direction": [0.387011299014544, 0.9220749722419946], "acceleration": 1.185076355934143}]};
-
-    var context = canvas.node().getContext('2d');
     const [start_x, start_y] = fake_data.location;
 
     var pen_ball = {
-        x: width * start_x,
-        y: height * start_y,
+        frames: 0,
+        x: canvas.width * start_x,
+        y: canvas.height * start_y,
         speed: fake_data.speed,
         x_direction: fake_data.segments[0].unit_direction[0],
         y_direction: fake_data.segments[0].unit_direction[1],
         acceleration: fake_data.segments[0].acceleration,
-        radius: 4 / this.speed,
+        radius: base_radius,
         color: 'black',
         draw: function() {
             context.beginPath();
@@ -35,10 +26,31 @@ export function drawLines() {
 
     function draw() {
         pen_ball.draw();
+        pen_ball.frames += 1;
         pen_ball.x += pen_ball.x_direction * pen_ball.speed;
         pen_ball.y += pen_ball.y_direction * pen_ball.speed;
         pen_ball.speed *= pen_ball.acceleration;
+        pen_ball.radius = base_radius - (base_radius * pen_ball.speed);
+        if (pen_ball.frames < 60) {
+            window.requestAnimationFrame(draw);
+        } else {
+            draw_next_segment();
+        };
     };
 
-    window.requestAnimationFrame(draw);
-}
+    let segment_index = 0;
+    function draw_next_segment() {
+        if (segment_index > fake_data.segments.length - 1) return null;
+        const segment = fake_data.segments[segment_index];
+        console.log(segment);
+        pen_ball.frames = 0;
+        pen_ball.acceleration = segment.acceleration;
+        pen_ball.x_direction = segment.unit_direction[0];
+        pen_ball.y_direction = segment.unit_direction[1];
+        
+        window.requestAnimationFrame(draw);
+        segment_index += 1;
+    };
+
+    draw_next_segment();
+};
