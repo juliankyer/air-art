@@ -1,7 +1,5 @@
 import '../styles/index.scss';
 
-console.log('waiting');
-
 function docReady(fn) {
   if (document.readyState === "complete" || document.readyState === "interactive") {
       setTimeout(fn, 1);
@@ -11,5 +9,7 @@ function docReady(fn) {
 };
 
 docReady(function() {
-  console.log('ready!');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+
 });
