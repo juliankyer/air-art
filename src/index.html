@@ -6,16 +6,19 @@
   <title>Air Art</title>
 </head>
 <body>
-  <canvas id="canvas" width="500" height="400"></canvas>
-  <div class="controls">
-    <label for="radius">Radius</label>
-    <input type="range" id="radius" name="radius" min="1" max="25" value="8" />
+  <div class="side">
+    <h1>Air Art</h1>
+    <div class="controls">
+      <label for="radius">Radius</label>
+      <input type="range" id="radius" name="radius" min="1" max="25" value="8" />
 
-    <label for="speed">Speed</label>
-    <input type="range" id="speed" name="speed" min="1" max="10" value="3" />
+      <label for="speed">Speed</label>
+      <input type="range" id="speed" name="speed" min="1" max="10" value="3" />
 
-    <label for="x_slide">X</label>
-    <input type="range" id="x_slide" name="x_slide" min="1" max="50" value="3" />
+      <label for="gravity">Gravity</label>
+      <input type="range" id="gravity" name="gravity" min="-10" max="15" />
+    </div>
   </div>
+  <canvas id="canvas" width="500" height="400"></canvas>
 </body>
 </html>
