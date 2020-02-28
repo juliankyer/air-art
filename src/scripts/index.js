@@ -1,8 +1,10 @@
 import '../styles/index.scss';
 import { drawLines } from './canvas.js';
 
-const fake_data = require('../data/fake_data.json');
 const colors = ['#d3168c', '#a618d1', '#7605e0', '#1210d9', '#1210d9'];
+
+const http = new XMLHttpRequest();
+const url = 'http://10.213.173.60:5000/stroke';
 
 function docReady(fn) {
   if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -21,12 +23,23 @@ docReady(function() {
   const context = canvas.getContext('2d');
   let colorIndex = 0;
 
-  fake_data.forEach((data, index) => {
-    if(colorIndex >= colors.length) {
-      colorIndex = 0;
-    }
+  function get_and_draw_stroke() {
+      setTimeout(() => {
+        if (colorIndex >= colors.length) colorIndex = 0;
 
-    drawLines(canvas, context, data, colors[colorIndex]);
-    colorIndex++;
-  });
+        http.open("GET", url);
+        http.onreadystatechange = function() {
+            if (http.readyState == XMLHttpRequest.DONE) {
+                const data = JSON.parse(http.response);
+        
+                drawLines(canvas, context, data, colors[colorIndex]);
+                colorIndex++;
+                get_and_draw_stroke();
+            };
+        };
+        http.send();
+      }, 2000);
+  };
+
+  get_and_draw_stroke();
 });
