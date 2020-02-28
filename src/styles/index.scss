@@ -1,13 +1,14 @@
 $red: #d3168c;
-$pink: #d3168c;
+$pink: #a618d1;
 $lt-purple: #a618d1;
 $dk-purple: #7605e0;
 $blue: #1210d9;
 
 body {
   font-family: sans-serif;
-}
-
-#canvas {
-  border: 2px solid $blue;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  // background-color: #000F08;
+  background-color: #011627;
 }
