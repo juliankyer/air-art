@@ -16,7 +16,7 @@ docReady(function() {
   const canvas = document.getElementById('canvas');
   
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.height = window.innerHeight - 85;
 
   const context = canvas.getContext('2d');
   let colorIndex = 0;

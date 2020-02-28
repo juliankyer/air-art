@@ -12,3 +12,16 @@ body {
   // background-color: #000F08;
   background-color: #011627;
 }
+
+.controls {
+  border: 1px solid #ffffff;
+  display: inline-block;
+  margin-top: 5px;
+  padding: 20px 20px;
+  label, input {
+    color: #ffffff;
+  }
+
+  input[type=range]::-moz-range-thumb {
+  }
+}
