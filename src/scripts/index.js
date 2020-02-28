@@ -1,5 +1,6 @@
 import '../styles/index.scss';
 import { drawLines } from './canvas.js';
+import PenStroke from './penstroke.js';
 
 const colors = ['#d3168c', '#a618d1', '#7605e0', '#1210d9', '#1210d9'];
 
@@ -31,8 +32,12 @@ docReady(function() {
         http.onreadystatechange = function() {
             if (http.readyState == XMLHttpRequest.DONE) {
                 const data = JSON.parse(http.response);
-        
+
+                // var stroke = new PenStroke(canvas, context, data, colors[colorIndex]);
+                // stroke.draw_next_segment();
+
                 drawLines(canvas, context, data, colors[colorIndex]);
+
                 colorIndex++;
                 get_and_draw_stroke();
             };

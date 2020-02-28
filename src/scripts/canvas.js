@@ -16,6 +16,7 @@ export function drawLines(canvas, context, fake_data, color) {
         acceleration: fake_data.segments[0].acceleration,
         radius: base_radius,
         color: color,
+        stroke_length: fake_data.segments[0].length,
         draw: function() {
             context.beginPath();
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
@@ -33,7 +34,7 @@ export function drawLines(canvas, context, fake_data, color) {
 
         pen_ball.draw();
         pen_ball.frames += 1;
-        pen_ball.x += pen_ball.x_direction + pen_ball.x_speed 
+        pen_ball.x += pen_ball.x_direction + pen_ball.x_speed;
         pen_ball.y += pen_ball.y_direction - pen_ball.y_speed;
         pen_ball.x_speed *= pen_ball.acceleration + speed_slider.value;
         pen_ball.y_speed *= pen_ball.acceleration + speed_slider.value;
@@ -41,7 +42,7 @@ export function drawLines(canvas, context, fake_data, color) {
         // pen_ball.radius = base_radius - (base_radius * pen_ball.speed);
         pen_ball.radius = radius_slider.value;
 
-        if (pen_ball.frames < 60) {
+        if (pen_ball.frames < pen_ball.stroke_length) {
            window.requestAnimationFrame(draw);
         } else {
             draw_next_segment();
@@ -57,6 +58,7 @@ export function drawLines(canvas, context, fake_data, color) {
         pen_ball.x_direction = segment.unit_direction[0];
         pen_ball.y_direction = segment.unit_direction[1];
         pen_ball.radius = base_radius - (base_radius * pen_ball.speed);
+        pen_ball.stroke_length = segment.length;
 
         window.requestAnimationFrame(draw);
         segment_index += 1;
