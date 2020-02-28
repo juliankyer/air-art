@@ -4,13 +4,14 @@ export function drawLines(canvas, context, fake_data, color) {
     const base_radius = 3;
 
     const [start_x, start_y] = fake_data.location;
+    const speed_slider = document.getElementById('speed');
 
     var pen_ball = {
         frames: 0,
         x: canvas.width * start_x,
         y: canvas.height * start_y,
-        x_speed: fake_data.speed,
-        y_speed: fake_data.speed,
+        x_speed: fake_data.speed * (speed_slider.value / 100),
+        y_speed: fake_data.speed * (speed_slider.value / 100),
         x_direction: fake_data.segments[0].unit_direction[0],
         y_direction: fake_data.segments[0].unit_direction[1],
         acceleration: fake_data.segments[0].acceleration,
@@ -38,7 +39,6 @@ export function drawLines(canvas, context, fake_data, color) {
 
     function draw() {
         const radius_slider = document.getElementById('radius');
-        const speed_slider = document.getElementById('speed');
         const gravity_slider = document.getElementById('gravity');
         let gravity = gravity_slider.value / 1000;
 
@@ -46,8 +46,8 @@ export function drawLines(canvas, context, fake_data, color) {
         pen_ball.frames += 1;
         pen_ball.x += pen_ball.x_direction + pen_ball.x_speed;
         pen_ball.y += pen_ball.y_direction - pen_ball.y_speed;
-        pen_ball.x_speed *= pen_ball.acceleration + speed_slider.value;
-        pen_ball.y_speed *= pen_ball.acceleration + speed_slider.value;
+        pen_ball.x_speed *= pen_ball.acceleration;
+        pen_ball.y_speed *= pen_ball.acceleration;
         pen_ball.y_speed -= gravity;
 
         pen_ball.radius = new_radius(radius_slider.value, pen_ball.x_speed, pen_ball.y_speed);
