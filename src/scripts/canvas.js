@@ -1,4 +1,4 @@
-const fake_data = require('../data/fake_data.json');
+// const fake_data = require('../data/fake_data.json');
 
 export function drawLines(canvas, context, fake_data, color) {
     const base_radius = 3;
