@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import { drawLines } from './canvas.js';
-import PenStroke from './penstroke.js';
+// import PenStroke from './penstroke.js';
 
 const colors = ['#d3168c', '#a618d1', '#7605e0', '#1210d9', '#1210d9'];
 
@@ -21,7 +21,7 @@ docReady(function() {
   canvas.width = window.innerWidth - 200;
   canvas.height = window.innerHeight;
 
-  const context = canvas.getContext('2d');
+  let context = canvas.getContext('2d');
   let colorIndex = 0;
 
   function get_and_draw_stroke() {
@@ -35,7 +35,6 @@ docReady(function() {
 
                 // var stroke = new PenStroke(canvas, context, data, colors[colorIndex]);
                 // stroke.draw_next_segment();
-
                 drawLines(canvas, context, data, colors[colorIndex]);
 
                 colorIndex++;
@@ -43,7 +42,7 @@ docReady(function() {
             };
         };
         http.send();
-      }, 2000);
+      }, 1000);
   };
 
   get_and_draw_stroke();
